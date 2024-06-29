@@ -3,12 +3,15 @@ package main
 import (
 	//"fmt"
 	//"helium/crypto"
+	"fmt"
 	"helium/web"
 )
 
-func main(){
+func main() {
 	web.StartServer()
+	fmt.Println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 }
+
 /*
 func main() {
 	// Generate a pair of keys
