@@ -8,11 +8,28 @@
 <body>
     <center>
         <h1>
-            GO server running
+            aaa
         </h1>
     </center>
 </body>
 <script>
     console.log(document.cookie)
+    var time = new Date()
+    fetch(`http://127.0.0.1:3344/${time.getTime()}`, {
+    method: 'Post',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ key: 'value' })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => console.log(data))
+    .catch(error => console.error('There has been a problem with your fetch operation:', error));
+
 </script>
 </html>
