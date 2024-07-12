@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AES Encryption Example</title>
+</head>
+<body>
+    <h1>AES Encryption and Decryption</h1>
+    <textarea id="inputText" placeholder="Enter text to encrypt"></textarea>
+    <button onclick="encrypt()">Encrypt</button>
+    <textarea id="encryptedText" placeholder="Encrypted text will appear here"></textarea>
+    <button onclick="decrypt()">Decrypt</button>
+    <textarea id="decryptedText" placeholder="Decrypted text will appear here"></textarea>
+
+    <script>
+        let aesKey;
+        const iv = window.crypto.getRandomValues(new Uint8Array(16));
+
+        async function generateKey() {
+            aesKey = await window.crypto.subtle.generateKey(
+                {
+                    name: "AES-CBC",
+                    length: 256,
+                },
+                true,
+                ["encrypt", "decrypt"]
+            );
+        }
+
+        async function encrypt() {
+            const text = document.getElementById("inputText").value;
+            const encoder = new TextEncoder();
+            const data = encoder.encode(text);
+            const encryptedData = await window.crypto.subtle.encrypt(
+                {
+                    name: "AES-CBC",
+                    iv: iv,
+                },
+                aesKey,
+                data
+            );
+            const encryptedText = btoa(String.fromCharCode(...new Uint8Array(encryptedData)));
+            document.getElementById("encryptedText").value = encryptedText;
+        }
+
+        async function decrypt() {
+            const encryptedText = document.getElementById("encryptedText").value;
+            const encryptedData = Uint8Array.from(atob(encryptedText), c => c.charCodeAt(0));
+            const decryptedData = await window.crypto.subtle.decrypt(
+                {
+                    name: "AES-CBC",
+                    iv: iv,
+                },
+                aesKey,
+                encryptedData
+            );
+            const decoder = new TextDecoder();
+            const decryptedText = decoder.decode(decryptedData);
+            document.getElementById("decryptedText").value = decryptedText;
+        }
+
+        // Generate the key when the page loads
+        window.onload = generateKey;
+    </script>
+</body>
+</html>

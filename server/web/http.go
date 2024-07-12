@@ -78,7 +78,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	// 检查文件是否存在并且是合法的文件
 	info, err := os.Stat(filePath)
 	if os.IsNotExist(err) || info.IsDir() {
-		http.Error(w, "File not found.\n"+filePath, http.StatusNotFound) //"File not found.",http.StatusNotFound)
+		//http.Error(w, "File not found.\n"+filePath, http.StatusNotFound) //"File not found.",http.StatusNotFound)
 		return
 	}
 
